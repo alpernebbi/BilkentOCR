@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Bilkent Otomatik OCR
 // @author      Alper Nebi YASAK
-// @namespace   https://stars.bilkent.edu.tr/ocr/index.php
+// @namespace   https://github.com/alpernebbi/BilkentOCR
 // @include     https://stars.bilkent.edu.tr/ocr/index.php
-// @version     0.3.1
+// @version     0.3.2
 // @grant       unsafeWindow
 // ==/UserScript==
 
@@ -16,12 +16,16 @@ var _child;
 var _intv;
 var _loadSections;
 var _confirm;
+var _sure;
 
 function _triggerWaiting(_clickEvent) {
 	_child = _clickEvent.currentTarget.id.substring(7);
 	_sect = _rows[_child].firstElementChild.innerHTML;
 	_inst = _rows[_child].children[8].innerHTML;
-	if (window.confirm("Try to add  " + unsafeWindow.jQuery("#tabs input:radio:checked").val().replace("|", "") + "-" + _sect + " (" + _inst + ") automatically when it has available quota?")) {
+	_sure = window.confirm("Try to add  " +
+		unsafeWindow.jQuery("#tabs input:radio:checked").val().replace("|", "") +
+		"-" + _sect + " (" + _inst + ") automatically when it is available?");
+	if (_sure) {
 		_intv = window.setInterval(_waitForIt, 2000);
 	}
 }
