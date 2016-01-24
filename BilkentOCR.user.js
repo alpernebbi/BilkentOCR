@@ -3,14 +3,9 @@
 // @author      Alper Nebi YASAK
 // @namespace   https://stars.bilkent.edu.tr/ocr/index.php
 // @include     https://stars.bilkent.edu.tr/ocr/index.php
-// @version     0.3
+// @version     0.3.1
 // @grant       unsafeWindow
-// @grant       GM_xmlhttpRequest
 // ==/UserScript==
-
-var _allowed = [
-// REDACTED
-];
 
 var _sections;
 var _table;
@@ -21,21 +16,6 @@ var _child;
 var _intv;
 var _loadSections;
 var _confirm;
-var _id;
-var _cry;
-
-function _whoisthis() {
-	var links = document.getElementsByTagName('a');
-	for (var i = 0; i < links.length; i++) {
-		if (links[i].href.search("webserv") != -1) {
-		   var translink = links[i].href;
-		   var idind = translink.search("id=");
-		   var cryind = translink.search("cry=");
-		   _id = translink.substring(idind + 3, idind + 11);
-		   _cry = translink.substring(cryind + 4, cryind + 36);
-		}
-	}
-}
 
 function _triggerWaiting(_clickEvent) {
 	_child = _clickEvent.currentTarget.id.substring(7);
@@ -130,7 +110,4 @@ function _hookToLoad() {
 	}
 }
 
-_whoisthis();
-if (_allowed.indexOf(_id) != -1) {
-	_hookToLoad();
-}
+_hookToLoad();
