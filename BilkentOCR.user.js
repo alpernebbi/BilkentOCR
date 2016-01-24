@@ -1,10 +1,16 @@
 // ==UserScript==
 // @name        Bilkent Otomatik OCR
+// @author      Alper Nebi YASAK
 // @namespace   https://stars.bilkent.edu.tr/ocr/index.php
 // @include     https://stars.bilkent.edu.tr/ocr/index.php
-// @version     0.1
+// @version     0.3
 // @grant       unsafeWindow
+// @grant       GM_xmlhttpRequest
 // ==/UserScript==
+
+var _allowed = [
+// REDACTED
+];
 
 var _sections;
 var _table;
@@ -54,7 +60,7 @@ function _replaceWithButtons() {
 
 function _makeButton(i) {
 	var _button = document.createElement('input');
-	_button.setAttribute("id", "waitButtonNo" + i);
+	_button.setAttribute("id", "breadNo" + i);
 	_button.setAttribute("aria-disabled", "false");
 	_button.setAttribute("role", "button");
 	_button.setAttribute("value", "Wait");
@@ -80,16 +86,18 @@ function _waitForIt() {
 				_child = i;
 			}
 		}
-	} else if (_rows[_child].lastElementChild.innerHTML.search("waitButtonNo") == -1) {
+	} else if (_rows[_child].lastElementChild.innerHTML.search("breadNo") == -1) {
 		_nullifyConfirm();
 		_clickButton(_rows[_child].lastElementChild.firstElementChild);
+		document.getElementById("i_confirm_drop_ok").click();
 		_restoreConfirm();
+		window.clearInterval(_intv);
 	}
 }
 
 function _waitLoading() {
 	if (document.getElementById("sections").innerHTML.search(".gif") != -1) {
-		window.setTimeout(_waitLoading, 250);
+		window.setTimeout(_waitLoading, 1000);
 	} else {
 		_replaceWithButtons();
 	}
@@ -122,5 +130,7 @@ function _hookToLoad() {
 	}
 }
 
-// _whoisthis();
-_hookToLoad();
+_whoisthis();
+if (_allowed.indexOf(_id) != -1) {
+	_hookToLoad();
+}
