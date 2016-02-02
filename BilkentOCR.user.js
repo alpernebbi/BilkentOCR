@@ -3,7 +3,7 @@
 // @author      Alper Nebi YASAK
 // @namespace   https://github.com/alpernebbi/BilkentOCR
 // @include     https://stars.bilkent.edu.tr/ocr/index.php
-// @version     0.3.2
+// @version     0.4
 // @grant       none
 // ==/UserScript==
 
