@@ -15,7 +15,6 @@ var _inst;
 var _child;
 var _intv;
 var _loadSections;
-var _confirm;
 var _sure;
 
 function _triggerWaiting(_clickEvent) {
@@ -71,10 +70,8 @@ function _waitForIt() {
 			}
 		}
 	} else if (_rows[_child].lastElementChild.innerHTML.search("breadNo") == -1) {
-		_nullifyConfirm();
 		_clickButton(_rows[_child].lastElementChild.firstElementChild);
 		document.getElementById("i_confirm_drop_ok").click();
-		_restoreConfirm();
 		window.clearInterval(_intv);
 	}
 }
@@ -85,21 +82,6 @@ function _waitLoading() {
 	} else {
 		_replaceWithButtons();
 	}
-}
-
-function _nullifyConfirm() {
-	if (typeof unsafeWindow.confirm === 'function') {
-		_confirm = unsafeWindow.confirm;
-		unsafeWindow.confirm = function(whatever){
-			return true;
-		};
-	} else {
-		unsafeWindow.confirm = true;
-	}
-}
-
-function _restoreConfirm() {
-	unsafeWindow.confirm = _confirm;
 }
 
 function _hookToLoad() {
