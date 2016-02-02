@@ -4,8 +4,10 @@
 // @namespace   https://github.com/alpernebbi/BilkentOCR
 // @include     https://stars.bilkent.edu.tr/ocr/index.php
 // @version     0.3.2
-// @grant       unsafeWindow
+// @grant       none
 // ==/UserScript==
+
+function main() {
 
 var _sections;
 var _table;
@@ -22,7 +24,7 @@ function _triggerWaiting(_clickEvent) {
 	_sect = _rows[_child].firstElementChild.innerHTML;
 	_inst = _rows[_child].children[8].innerHTML;
 	_sure = window.confirm("Try to add  " +
-		unsafeWindow.jQuery("#tabs input:radio:checked").val().replace("|", "") +
+		window.jQuery("#tabs input:radio:checked").val().replace("|", "") +
 		"-" + _sect + " (" + _inst + ") automatically when it is available?");
 	if (_sure) {
 		_intv = window.setInterval(_waitForIt, 2000);
@@ -61,8 +63,7 @@ function _clickButton(i) {
 }
 
 function _waitForIt() {
-	
-	unsafeWindow.loadSections();
+	window.loadSections();
 	if (_rows[_child].firstElementChild.innerHTML != _sect) {
 		for (var i = 0; i < _rows.length; i++) {
 			if (_rows[i].firstElementChild.innerHTML  === _sect) {
@@ -85,15 +86,21 @@ function _waitLoading() {
 }
 
 function _hookToLoad() {
-	if (typeof unsafeWindow.loadSections === 'function') {
-		_loadSections = unsafeWindow.loadSections;
-		unsafeWindow.loadSections = function(){
+	if (typeof loadSections === 'function') {
+		_loadSections = loadSections;
+		loadSections = function(){
 			_loadSections();
 			_waitLoading();
 		};
 	} else {
-		unsafeWindow.loadSections = _waitLoading;
+		loadSections = _waitLoading;
 	}
 }
 
 _hookToLoad();
+
+}
+
+var script = document.createElement('script');
+script.appendChild(document.createTextNode('('+ main +')();'));
+(document.body || document.head || document.documentElement).appendChild(script);
